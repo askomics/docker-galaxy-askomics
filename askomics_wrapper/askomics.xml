@@ -1,0 +1,75 @@
+<tool id="askomics" name="AskOmics" version="@WRAPPER_VERSION@">
+    <description>Data integration</description>
+
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+
+    <expand macro='requirements' />
+
+    <stdio>
+        <exit_code range="1:" />
+    </stdio>
+
+    <command><![CDATA[
+        askocli integrate
+        -a @URL@
+        #if @PORT@
+            -p @PORT@
+        #end if
+        -u @USERNAME@
+        -k @APIKEY@
+        --file-type '$input_format.format'
+        #if $input_format.format == "gff"
+            -e $input_format.ent
+            -t '$input_format.tax'
+        #end if
+        '$input'
+        > '$output'
+    ]]></command>
+
+    <inputs>
+        <expand macro='askomics_loc' />
+        <expand macro='askomics_auth' />
+
+       <conditional name="input_format">
+           <param type="select" name="format" label="Input format">
+               <option value="csv">CSV/TSV</option>
+               <option value="gff">GFF</option>
+               <option value="ttl">Turtle</option>
+            </param>
+           <when value="csv">
+               <param format="tabular" name="input" type="data" label="Dataset to integrate" argument="-d"  />
+            </when>
+            <when value="gff">
+                <param format="gff3" name="input" type="data" label="Dataset to integrate" argument="-d"  />
+                <param name="ent" type="text" value="transcript gene" label="Entities (separated with space)" argument="-e"/>
+                <param name="tax" type="text" value="" label="Taxon" argument="-t"/>
+            </when>
+            <when value="ttl">
+                <param format="ttl" name="input" type="data" label="Dataset to integrate" argument="-d"  />
+            </when>
+        </conditional>
+    </inputs>
+
+    <outputs>
+        <data format="txt" name="output" label="Integration of ${input_format.input.name}" />
+    </outputs>
+
+    <tests>
+        <test expect_failure='true' expect_exit_code='1'>
+            <expand macro='test_asko_loc' />
+            <expand macro='test_asko_auth' />
+            <conditional name='input_format'>
+                <param name='format' value='csv' />
+                <param name='input' value='test.csv' />
+            </conditional>
+        </test>
+    </tests>
+
+    <help><![CDATA[
+        @HELP@
+    ]]></help>
+
+    <expand macro='citation' />
+</tool>
