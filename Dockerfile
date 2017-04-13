@@ -13,23 +13,14 @@ ADD welcome_image.png $GALAXY_CONFIG_DIR/web/welcome_image.png
 ADD tool_conf.xml /etc/config/askomics_tool_conf.xml
 
 # Add the config file to the path
-# ENV GALAXY_CONFIG_TOOL_CONFIG_FILE /etc/config/askomics_tool_conf.xml
-# ENV GALAXY_CONFIG_TOOL_CONFIG_FILE /galaxy-central/config/shed_tool_conf.xml,/etc/config/askomics_tool_conf.xml
 ENV GALAXY_CONFIG_TOOL_CONFIG_FILE /galaxy-central/config/tool_conf.xml.sample,/galaxy-central/config/shed_tool_conf.xml,/etc/config/askomics_tool_conf.xml
 
-
-# Add the Galaxy-askomics wrapper
+# 
 RUN mkdir tools/askomics
 ADD askomics_wrapper/askomics.xml tools/askomics/askomics.xml
 ADD askomics_wrapper/macros.xml tools/askomics/macros.xml
 
-# Install python3 and pip3
-RUN apt-get update && apt-get install -y python3 python3-pip
+# # Mark folders as imported from the host.
+# VOLUME ["/export/", "/askomics-data/", "/var/lib/docker"]
 
-# Install askocli
-RUN pip3 install --upgrade pip && pip3 install askocli
-
-# Mark folders as imported from the host.
-VOLUME ["/export/", "/askomics-data/", "/var/lib/docker"]
-
-RUN chmod -R 777 /askomics-data
+# # RUN chmod -R 777 /askomics-data

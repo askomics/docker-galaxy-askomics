@@ -13,15 +13,24 @@
 
     <command><![CDATA[
         askocli integrate
-        -a @URL@
+
+        #if @URL@
+            -a @URL@
+        #else
+            -a @ENV_URL@
+        #end if
+
         #if @PORT@
             -p @PORT@
+        #else
+            -p @ENV_PORT@
         #end if
+
         -u @USERNAME@
         -k @APIKEY@
         --file-type '$input_format.format'
         #if $input_format.format == "gff"
-            -e $input_format.ent
+            -e '$input_format.ent'
             -t '$input_format.tax'
         #end if
         '$input'

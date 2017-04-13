@@ -4,7 +4,7 @@
     <!-- Requirements -->
     <xml name='requirements'>
         <requirements>
-            <requirement type='package' version='v0.2.2'>askocli</requirement>
+            <requirement type='package' version='0.2.1'>askocli</requirement>
         </requirements>
     </xml>
 
@@ -41,23 +41,26 @@
 
     <!-- AskOmics server location -->
     <xml name='askomics_loc'>
-        <section name='loc' title='AskOmics location' expanded='True'>
+        <section name='loc' title='AskOmics location' expanded='False'>
             <param name='url'
                    type='text'
                    label='AskOmics URL'
-                   value='http://localhost'
+                   optional='true'
                    argument='-a' />
             <param name='port'
                    type='integer'
                    label='AskOmics port'
                    optional='True'
-                   value='6543'
                    argument='-p' />
         </section>
     </xml>
 
-    <token name='@URL@'><![CDATA['$loc.url']]></token>
-    <token name='@PORT@'><![CDATA['$loc.port']]></token>
+    <token name='@URL@'><![CDATA[$loc.url]]></token>
+    <token name='@PORT@'><![CDATA[$loc.port]]></token>
+
+    <!-- Environment variables -->
+    <token name='@ENV_URL@'><![CDATA[\$ASKOMICS_URL]]></token>
+    <token name='@ENV_PORT@'><![CDATA[\$ASKOMICS_PORT]]></token>
 
     <!-- Authentication -->
     <xml name='askomics_auth'>
@@ -65,12 +68,10 @@
             <param name='username'
                    type='text'
                    label='Username'
-                   value='imx'
                    argument='-u' />
             <param name='apikey'
                    type='text'
                    label='API key'
-                   value='iMGIJFcmJC7MUdVGNDmZ'
                    argument='-k' />
         </section>
     </xml>
