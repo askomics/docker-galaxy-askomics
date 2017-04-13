@@ -15,12 +15,7 @@ ADD tool_conf.xml /etc/config/askomics_tool_conf.xml
 # Add the config file to the path
 ENV GALAXY_CONFIG_TOOL_CONFIG_FILE /galaxy-central/config/tool_conf.xml.sample,/galaxy-central/config/shed_tool_conf.xml,/etc/config/askomics_tool_conf.xml
 
-# 
+# Add the tool wrapper
 RUN mkdir tools/askomics
 ADD askomics_wrapper/askomics.xml tools/askomics/askomics.xml
 ADD askomics_wrapper/macros.xml tools/askomics/macros.xml
-
-# # Mark folders as imported from the host.
-# VOLUME ["/export/", "/askomics-data/", "/var/lib/docker"]
-
-# # RUN chmod -R 777 /askomics-data
