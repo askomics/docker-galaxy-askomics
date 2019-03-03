@@ -1,4 +1,4 @@
-FROM bgruening/galaxy-stable
+FROM bgruening/galaxy-stable:19.01
 MAINTAINER Xavier Garnier <xavier.garnier@irisa.fr>
 
 WORKDIR /galaxy-central
